@@ -27,13 +27,44 @@ class Chat extends Component {
     }, 1000);
   }
 
+  handleChatMessage = (text)  => {
+
+    const customerMessage = {
+      text: [text],
+      "role": "CUSTOMER",
+    }
+
+    setTimeout(() => {
+      const messages = this.state.messages.concat(customerMessage);
+      this.setState({
+        messages,
+      });
+    }, 500);
+
+    const chatMessage = answersData.find((answer) => {
+      const regex = new RegExp(answer.tags)
+      return regex.exec(text);
+    });
+
+    if (chatMessage === undefined) {
+      return;
+    }
+  
+    const messages = this.state.messages.concat(customerMessage).concat(chatMessage);
+    setTimeout(() => {
+      this.setState({
+        messages,
+      });
+    }, 1000);
+  }
+
   render() {
     const { shop, messages } = this.state;
     return (
       <main className="Chat">
         <ChatHeader shop={shop} />
         <ChatBox messages={messages} />
-        <ChatInput />
+        <ChatInput handleChatMessage={this.handleChatMessage}/>
       </main>
     );
   }
