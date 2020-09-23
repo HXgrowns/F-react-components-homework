@@ -30,15 +30,8 @@ class Chat extends Component {
 
   handlerobotMessage = (text) => {
     let robotMessage = answersData.find((answer) => {
-      answer.tags.forEach(tag => {
-        const regex = new RegExp(tag);
-        if (regex.test(text)) {
-          return regex.exec(text);
-        }
-      });
-      
-      // const regex = new RegExp(answer.tags);
-      // return regex.exec(text);
+      const regex = new RegExp(answer.tags);
+      return regex.exec(text);
     });
 
     if (robotMessage === undefined) {
